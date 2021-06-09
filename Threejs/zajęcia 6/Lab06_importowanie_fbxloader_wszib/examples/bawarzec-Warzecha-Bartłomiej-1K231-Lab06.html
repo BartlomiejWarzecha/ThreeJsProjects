@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - FBX loader</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+
+	<body>
+		<div id="info">
+			<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - FBXLoader<br />
+			Character and animation from <a href="https://www.mixamo.com/" target="_blank" rel="noopener">Mixamo</a>
+		</div>
+
+		<script type="module">
+
+			import * as THREE from '../build/three.module.js';
+
+			import Stats from './jsm/libs/stats.module.js';
+
+			import { OrbitControls } from './jsm/controls/OrbitControls.js';
+			import { FBXLoader } from './jsm/loaders/FBXLoader.js';
+
+			var container, stats, controls;
+			var camera, scene, renderer, light;
+
+			var clock = new THREE.Clock();
+
+			var mixer0,mixer1, mixer2, mixer3, mixer4, mixer5, mixer6, mixer7, mixer8, mixer9, mixer10;
+
+		
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+				camera.position.set( 100, 400, 600 );
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xa0a0a0 );
+				scene.fog = new THREE.Fog( 0xa0a0a0, 200, 1000 );
+
+				light = new THREE.HemisphereLight( 0xffffff, 0x444444 );
+				light.position.set( 0, 200, 0 );
+				scene.add( light );
+
+				light = new THREE.DirectionalLight( 0xffffff );
+				light.position.set( 0, 200, 100 );
+				light.castShadow = true;
+				light.shadow.camera.top = 180;
+				light.shadow.camera.bottom = - 100;
+				light.shadow.camera.left = - 120;
+				light.shadow.camera.right = 120;
+				scene.add( light );
+
+				// scene.add( new CameraHelper( light.shadow.camera ) );
+
+				// ground
+				var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+				mesh.rotation.x = - Math.PI / 2;
+				mesh.receiveShadow = true;
+				scene.add( mesh );
+
+				var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+				grid.material.opacity = 0.2;
+				grid.material.transparent = true;
+				scene.add( grid );
+
+				// model
+				var loader3 = new FBXLoader();
+					loader3.load( ('models/fbx/Mutant-Dying.fbx'), function ( object3) {
+
+
+					mixer1 = new THREE.AnimationMixer( object3 );
+
+					var action1 = mixer1.clipAction( object3.animations[ 1 ] );
+					action1.play();
+
+					object3.traverse(  function ( child ) {
+
+						if ( child.isMesh ) {
+
+							child.castShadow = true;
+							child.receiveShadow = true;
+
+						}
+
+					} );
+
+					object3.position.set(-140,-10,-150);
+					object3.scale.set(1.5,1.5,1.5);
+					scene.add( object3 );
+
+				} );
+				
+				var loader2 = new FBXLoader();
+				loader2.load( 'models/fbx/all-oponent-moves.fbx', function ( object2) {
+
+					mixer2 = new THREE.AnimationMixer( object2 );
+					mixer3 = new THREE.AnimationMixer( object2 );
+					mixer4 = new THREE.AnimationMixer( object2 );
+
+				// moves 7 4  
+				// dance 8
+					var action2 = mixer2.clipAction( object2.animations[7] );
+					action2.play();
+					
+					var action3 = mixer3.clipAction( object2.animations[4]);
+					action3.play();
+
+					var action4 = mixer4.clipAction( object2.animations[8]);					
+					action4.play();
+
+					// var action5 = mixer5.clipAction( object2.animations[2]);
+					// action5.play();
+
+					object2.traverse( function ( child ) {
+
+						if ( child.isMesh ) {
+
+							child.castShadow = true;
+							child.receiveShadow = true;
+
+						}
+
+					} );
+					
+					object2.position.set(0,-10,-700);
+					object2.scale.set(1.6,1.2,1.4);
+					
+		
+					scene.add( object2 );
+
+				} );
+
+
+				var loader5 = new FBXLoader();
+				loader5.load( ('models/fbx/Żołnierz-Standing-Death-Left.fbx'), function ( object5) {
+
+
+				mixer5 = new THREE.AnimationMixer( object5 );
+
+				var action5 = mixer5.clipAction( object5.animations[ 0 ] );
+				action5.play();
+
+				object5.traverse(  function ( child ) {
+
+					if ( child.isMesh ) {
+
+						child.castShadow = true;
+						child.receiveShadow = true;
+
+					}
+
+				} );
+
+				object5.position.set(90,-10,-130);
+				object5.scale.set(1,1,1);
+				scene.add( object5 );
+
+				} );
+
+				var loader6 = new FBXLoader();
+				loader6.load( ('models/fbx/Voyager-Jump-Attack.fbx'), function ( object6) {
+
+
+				mixer6 = new THREE.AnimationMixer( object6 );
+
+				var action6 = mixer6.clipAction( object6.animations[ 0 ] );
+				action6.play();
+
+				object6.traverse(  function ( child ) {
+
+					if ( child.isMesh ) {
+
+						child.castShadow = true;
+						child.receiveShadow = true;
+
+					}
+
+				} );
+
+				object6.position.set(-150,-10, -250);
+				object6.scale.set(1.6,1.6,1.6);
+				object6.rotation.set(12,-100,0);
+				scene.add( object6 );
+
+				} );
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.shadowMap.enabled = true;
+				container.appendChild( renderer.domElement );
+
+				controls = new OrbitControls( camera, renderer.domElement );
+				controls.target.set( 0, 100, 0 );
+				controls.update();
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+				// stats
+				stats = new Stats();
+				container.appendChild( stats.dom );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				var start = clock.startTime
+				var delta = clock.getDelta();
+				//Speed = delta * x
+				if(clock.elapsedTime < 12)
+				{
+					if ( mixer5 ) mixer5.update( delta * 0.01 );
+					if ( mixer1 ) mixer1.update( delta * 0.01);
+				}
+			
+				if(clock.elapsedTime < 14 && clock.elapsedTime > 12)
+				{
+					if ( mixer5 ) mixer5.update( delta * 0.2 );
+				}
+
+				if(clock.elapsedTime < 14 && clock.elapsedTime > 12 )
+				{
+					if ( mixer1 ) mixer1.update( delta * 0.2  );
+				}
+				
+				if(clock.elapsedTime < 15 && clock.elapsedTime > 14)
+				{
+					if ( mixer5 ) mixer5.update( delta  );
+				}
+
+				if(clock.elapsedTime < 15 && clock.elapsedTime > 14)
+				{
+					if ( mixer1 ) mixer1.update( delta );
+				}
+
+				if(clock.elapsedTime < 3){
+
+					if ( mixer2 ) mixer2.update( delta );
+
+				}
+				if(clock.elapsedTime > 3 && clock.elapsedTime < 10)
+				{
+					if ( mixer3 ) mixer3.update( delta * 0.5 );
+				}
+				if(clock.elapsedTime > 10 && clock.elapsedTime < 13.8)
+				{ if ( mixer4 ) mixer4.update( delta * 0.7 );
+				}
+
+				if(clock.elapsedTime > 13 &&  clock.elapsedTime < 14)
+				{
+					if ( mixer3 ) mixer3.update( delta * 0.7 );
+				}
+
+				if(clock.elapsedTime > 14 &&  clock.elapsedTime < 15)
+				{
+					if ( mixer3 ) mixer3.update( delta );
+				}
+
+				if(clock.elapsedTime > 12 &&  clock.elapsedTime < 15)
+				{
+					if ( mixer6 ) mixer6.update( delta * 0.6 );
+				}
+				if(clock.elapsedTime > 15 )
+				{
+					if ( mixer1 ) mixer1.update( delta * 0.01 );
+					if ( mixer3 ) mixer3.update( delta * 0.01);
+					if ( mixer6 ) mixer6.update( delta * 0.01 );
+					
+				}
+
+
+				renderer.render( scene, camera );
+
+				stats.update();
+
+			}
+
+		</script>
+
+	</body>
+</html>
