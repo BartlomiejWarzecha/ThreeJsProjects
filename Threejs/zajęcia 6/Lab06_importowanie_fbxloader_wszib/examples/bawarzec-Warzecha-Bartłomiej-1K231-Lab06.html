@@ -44,33 +44,35 @@
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xa0a0a0 );
-				scene.fog = new THREE.Fog( 0xa0a0a0, 200, 1000 );
+				scene.fog = new THREE.Fog( 0xa0a0a0, 300, 950 );
 
-				light = new THREE.HemisphereLight( 0xffffff, 0x444444 );
+				light = new THREE.HemisphereLight( 0x8EB4FF, 0xffffff );
 				light.position.set( 0, 200, 0 );
 				scene.add( light );
 
 				light = new THREE.DirectionalLight( 0xffffff );
-				light.position.set( 0, 200, 100 );
+				light.position.set( 100, 100, 100 );
 				light.castShadow = true;
-				light.shadow.camera.top = 180;
-				light.shadow.camera.bottom = - 100;
-				light.shadow.camera.left = - 120;
-				light.shadow.camera.right = 120;
+				light.shadow.camera.top = 700;
+				light.shadow.camera.bottom = - 700;
+				light.shadow.camera.left = - 700;
+				light.shadow.camera.right = 700;
 				scene.add( light );
+
+
 
 				// scene.add( new CameraHelper( light.shadow.camera ) );
 
 				// ground
-				var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+				var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x8EB4FF, depthWrite: false } ) );
 				mesh.rotation.x = - Math.PI / 2;
 				mesh.receiveShadow = true;
 				scene.add( mesh );
 
-				var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
-				grid.material.opacity = 0.2;
-				grid.material.transparent = true;
-				scene.add( grid );
+				//var grid = new THREE.GridHelper( 2000, 20, 0x84ADEA, 0x84ADEA );
+				//grid.material.opacity = 0.5;
+				//grid.material.transparent = true;
+				//scene.add( grid );
 
 				// model
 				var loader3 = new FBXLoader();
@@ -93,7 +95,7 @@
 
 					} );
 
-					object3.position.set(-140,-10,-150);
+					object3.position.set(-140,0,-150);
 					object3.scale.set(1.5,1.5,1.5);
 					scene.add( object3 );
 
@@ -131,7 +133,7 @@
 
 					} );
 					
-					object2.position.set(0,-10,-700);
+					object2.position.set(0,0,-700);
 					object2.scale.set(1.6,1.2,1.4);
 					
 		
@@ -160,7 +162,7 @@
 
 				} );
 
-				object5.position.set(90,-10,-130);
+				object5.position.set(90,0,-130);
 				object5.scale.set(1,1,1);
 				scene.add( object5 );
 
@@ -186,7 +188,7 @@
 
 				} );
 
-				object6.position.set(-150,-10, -250);
+				object6.position.set(-150,0, -250);
 				object6.scale.set(1.6,1.6,1.6);
 				object6.rotation.set(12,-100,0);
 				scene.add( object6 );
